@@ -5,6 +5,7 @@
       <input v-model="characterInput" type="radio" :value="option" :id="option">
       <label :for="option">{{option}}</label>
     </p>
+    <button @click="pickCharacter">Pick your character!</button>
   </GamestateStart>
   <section v-else>
     <svg viewBox="0 -180 1628 1180" class="main">
@@ -17,12 +18,17 @@
         </clipPath>
       </defs>
 
+      <Friend />
+      <Score />
+
+      <component :is="character"></component>
+
       <text
         x="1000"
         y="930"
         style="font: normal 45px 'Recursive; text-transform: uppercase;"
         class="text"
-      >Character Name</text>
+      >{{character}}</text>
 
       <path fill="#f0959f" d="M0 842h657v192H0z" />
 
@@ -56,11 +62,17 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import Score from '@/components/Score.vue';
+import Friend from '@/components/Friend.vue';
+import Artist from '@/components/Artist.vue';
+import Baker from '@/components/Baker.vue';
+import Mechanic from '@/components/Mechanic.vue';
+import Zombie from '@/components/Zombie.vue';
 import GamestateStart from '@/components/GamestateStart.vue'; 
+import { mapState } from 'vuex';
 
 export default {
-  components: { GamestateStart },
+  components: { Zombie, Score, Friend, Artist, Baker, Mechanic, GamestateStart },
   data() {
     return {
       characterInput: '',
@@ -72,7 +84,13 @@ export default {
       'questions',
       'characterChoices',
       'character',
-    ])
+    ]),
+  },
+  methods: {
+    pickCharacter() {
+      this.$store.commit('pickCharacter', this.characterInput)
+      this.$store.commit('updateUiState', 'characterChosen')
+    },
   },
 };
 </script>
