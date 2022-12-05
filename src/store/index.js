@@ -64,5 +64,13 @@ export default createStore({
         Math.sign(state.score) > 0 ? state.uiState = 'won' : state.uiState = 'lost'
       }
     },
+    updateScore(state, amount) {
+      state.score = amount
+    },
+    resetGame(state) {
+      state.uiState = 'start',
+      state.questionIndex = 0,
+      state.score = 0
+    }
   },
 })
